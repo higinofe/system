@@ -32,7 +32,7 @@ class SendClientCredentialsEmail implements ShouldQueue
 
     public function handle(Mailer $mailer)
     {
-        // Envia o e-mail com as credenciais
+        // send Email server
         $mailer->to($this->user->email)
                ->send(new ClientCredentialsMail($this->user, $this->password));
     }

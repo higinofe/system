@@ -19,23 +19,26 @@ use App\Http\Controllers\DatabaseController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
 
+//administer DB
 Route::put('/admin/database/{database}/quota', [AdminController::class, 'setDatabaseQuota']);
-
 Route::post('/database/{database}/provision-ssl', [SSLController::class, 'provisionSSL']);
-Route::post('/admin/client', [ClientController::class, 'store']);
-
-Route::put('/admin/database/{database}/quota', [AdminController::class, 'setDatabaseQuota']);
-
 Route::get('/database/{database}/check-usage', [DatabaseController::class, 'checkUsage']);
 
-
+//Send e-mail
 Route::post('/password/email', [ResetPasswordController::class, 'sendResetLinkEmail']);
 Route::post('/password/reset', [ResetPasswordController::class, 'reset']);
 
-Route::put('/admin/database/{database}/quota', [AdminController::class, 'setDatabaseQuota']);
+//to create Client
+Route::post('/admin/client', [ClientController::class, 'store']);
+
+
+
+
+
+
+
+
+;
 
 

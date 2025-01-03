@@ -12,7 +12,7 @@ use App\Models\Database;
 
 class ClientController extends Controller
 {
-    // Função para cadastrar um novo cliente
+    //Created Client
     public function createClient(Request $request)
     {
         $request->validate([
@@ -20,11 +20,11 @@ class ClientController extends Controller
             'email' => 'required|email|unique:users',
         ]);
 
-        // Gera um nome de usuário e senha aleatória
-        $username = 'user_' . strtolower(str_random(8)); // Gera um nome de usuário
-        $password = str_random(10); // Gera uma senha aleatória
+        // generates random username and password
+        $username = 'user_' . strtolower(str_random(8)); 
+        $password = str_random(10);
 
-        // Cria o cliente
+        // Created Client
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -32,32 +32,31 @@ class ClientController extends Controller
             'password' => Hash::make($password),
         ]);
 
-        // Envia as credenciais para o cliente por e-mail
+        // Send Email to the Client
         Mail::to($user->email)->send(new SendClientCredentialsMail($user->email, $password));
 
         return response()->json(['message' => 'Client created and email sent successfully!']);
     }
 
-    // Função para definir cotas de banco de dados para o cliente
+    // quotas for client
     public function setDatabaseQuota(Request $request, Database $database)
     {
         $request->validate([
             'max_quota' => 'required|integer|min:1',
         ]);
 
-        // Atualiza a cota máxima
         $database->max_quota = $request->max_quota;
         $database->save();
 
         return response()->json(['message' => 'Database quota updated successfully!', 'data' => $database]);
     }
 
-    // Função para bloquear ou desbloquear o cliente
+    // Function to block or unblock the client
     public function toggleClientStatus($clientId)
     {
         $user = User::findOrFail($clientId);
 
-        // Alterna entre ativo e bloqueado
+        // active end inactive
         $user->is_active = !$user->is_active;
         $user->save();
 

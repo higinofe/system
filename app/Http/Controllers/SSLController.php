@@ -9,16 +9,15 @@ class SSLController extends Controller
 {
     public function provisionSSL(Database $database)
     {
-        $domain = $database->domain->name;  // Obtém o nome do domínio associado ao banco de dados
+        $domain = $database->domain->name; 
 
-        // Comando para gerar o certificado SSL usando certbot
+        // generate ssl certificate command
         $command = "sudo certbot --apache -d {$domain}";
 
         try {
-            // Executa o comando shell
+            // Execute shell command
             $output = shell_exec($command);
 
-            // Verifica se o comando foi bem-sucedido
             if ($output) {
                 return response()->json(['message' => 'SSL certificate provisioned successfully!', 'output' => $output]);
             } else {
