@@ -19,6 +19,8 @@ use App\Http\Controllers\DatabaseController;
 |
 */
 
+//autentication PassPort
+
 
 //administer DB
 Route::put('/admin/database/{database}/quota', [AdminController::class, 'setDatabaseQuota']);
@@ -32,7 +34,10 @@ Route::post('/password/reset', [ResetPasswordController::class, 'reset']);
 //to create Client
 Route::post('/admin/client', [ClientController::class, 'store']);
 
-
+// Routes authenticator passport
+Route::middleware('auth:api')->get('/user', function (Request $request) {
+    return $request->user();
+});
 
 
 

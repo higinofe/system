@@ -1,10 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-use Illuminate\Queue\Middleware\RateLimited;
-use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
-use Symfony\Component\HttpKernel\Profiler\Profile;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,4 +28,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-
+require __DIR__.'/auth.php';

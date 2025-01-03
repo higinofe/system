@@ -8,7 +8,6 @@
         "php": "^8.0.2",
         "girni/laravel-rabbitmq": "^1.0",
         "guzzlehttp/guzzle": "^7.2",
-        "laravel/fortify": "^1.0",
         "laravel/framework": "^9.19",
         "laravel/passport": "^10.0",
         "laravel/sanctum": "^3.0",
