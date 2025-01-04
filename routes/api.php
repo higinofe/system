@@ -1,14 +1,11 @@
 <?php
-
-
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Client\ClientController;
 use App\Http\Controllers\Admin\DatabaseController;
 use App\Http\Controllers\Admin\DomainController;
-use App\Http\Controllers\Client\ProfileController;
 use App\Http\Controllers\Admin\SSLController;
+use App\Http\Controllers\Auth\ResetPasswordController;
 
 /*
 |--------------------------------------------------------------------------

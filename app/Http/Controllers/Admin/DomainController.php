@@ -9,7 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Domain;
 
 
-class DomainController extends Controller
+class DomainController
 {
     
     // Created domain

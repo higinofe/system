@@ -13,7 +13,7 @@ use App\Models\Domain;
 use App\Models\User;
 
 
-class DatabaseController extends Controller
+class DatabaseController 
 {
     //check used space
     public function checkUsage(Database $database)

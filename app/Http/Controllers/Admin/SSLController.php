@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Database;
 
-class SSLController extends Controller
+class SSLController
 {
     public function provisionSSL(Database $database)
     {

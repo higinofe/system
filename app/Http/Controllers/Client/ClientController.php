@@ -22,7 +22,7 @@ class ClientController extends Controller
         ]);
 
         // generates random username and password
-        $username = 'user_' . strtolower(str_random(8)); 
+        $username = 'user_' . strtolower(str_random(8));  
         $password = str_random(10);
 
         // Created Client
