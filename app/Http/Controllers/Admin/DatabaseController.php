@@ -1,23 +1,23 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-use App\Mail\StatusUpdateEmail;
+use Exception;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+
 use App\Mail\UsageAlert;
 use App\Models\Database;
 use App\Models\Domain;
 use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Exception;
-use Illuminate\Support\Facades\Mail;
+
 
 class DatabaseController extends Controller
 {
-    // occupancy check 
+    //check used space
     public function checkUsage(Database $database)
-    {
-        
+    {        
         //simulation rand space hidden
         $used = rand(0, 100);
         $database->usage = $used;
@@ -71,27 +71,11 @@ class DatabaseController extends Controller
         }
     }
 
-    // Usage Alert Notice
     private function sendUsageAlert(Database $database)
     {
         $user = $database->user;
         $message = "Alert: Your database '{$database->name}' has exceeded 80% of its storage quota.";
 
         Mail::to($user->email)->send(new UsageAlert($database, $message));
-    }
-
-    private function updateClientStatus(User $user, $usage)
-    {
-        if ($usage >= 100) {
-            $user->is_blocked = true;
-            $user->save();
-            $message = "Your account has been blocked due to exceeding the database quota.";
-        } else {
-            $user->is_blocked = false;
-            $user->save();
-            $message = "Your account has been unlocked as your usage is below 100%.";
-        }
-
-        Mail::to($user->email)->send(new StatusUpdateEmail($user, $message));
     }
 }

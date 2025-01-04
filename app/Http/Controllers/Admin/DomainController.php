@@ -1,14 +1,19 @@
 <?php
-namespace App\Http\Controllers;
 
-use App\Models\Domain;
+namespace App\Http\Controllers\Admin;
+
 use Illuminate\Container\Attributes\Database;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+
+use App\Models\Domain;
+
 
 class DomainController extends Controller
 {
+    
     // Created domain
-    public function createDomain(Request $request)
+    public function create(Request $request)
     {
         $request->validate([
             'domain_name' => 'required|unique:domains|max:255',
@@ -22,23 +27,23 @@ class DomainController extends Controller
         return response()->json(['message' => 'Domínio criado com sucesso!', 'domain' => $domain], 201);
     }
 
-    //function to create the database
-    public function createDatabase(Request $request, $domainId)
-    {
-        $request->validate([
-            'database_name' => 'required|unique:databases|max:255',
-        ]);
-
-        $domain = Domain::findOrFail($domainId);
-
-        $database = Database::create([
-            'name' => $request->database_name,
-            'domain_id' => $domain->id,
-            'user_id' => auth()->user()->id,
-        ]);
-
-        return response()->json(['message' => 'Banco de dados criado com sucesso!', 'database' => $database], 201);
-    }
+     //function to create the database for domain
+     public function createDatabase(Request $request, $domainId)
+     {
+         $request->validate([
+             'database_name' => 'required|unique:databases|max:255',
+         ]);
+ 
+         $domain = Domain::findOrFail($domainId);
+ 
+         $database = Database::create([
+             'name' => $request->database_name,
+             'domain_id' => $domain->id,
+             'user_id' => auth()->user()->id,
+         ]);
+ 
+         return response()->json(['message' => 'Banco de dados criado com sucesso!', 'database' => $database], 201);
+     }
 
     // check used DB 
     public function checkDatabaseUsage($databaseId)
@@ -68,4 +73,5 @@ class DomainController extends Controller
 
         return response()->json(['message' => 'Certificado SSL provisionado com sucesso!']);
     }
+
 }

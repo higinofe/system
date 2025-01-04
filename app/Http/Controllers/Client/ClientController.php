@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Client;
 
-use App\Models\User;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\ClientCredentialsMail;
+
+use App\Models\User;
 use App\Mail\SendClientCredentialsMail;
 use App\Models\Database;
 
@@ -36,19 +37,7 @@ class ClientController extends Controller
         Mail::to($user->email)->send(new SendClientCredentialsMail($user->email, $password));
 
         return response()->json(['message' => 'Client created and email sent successfully!']);
-    }
 
-    // quotas for client
-    public function setDatabaseQuota(Request $request, Database $database)
-    {
-        $request->validate([
-            'max_quota' => 'required|integer|min:1',
-        ]);
-
-        $database->max_quota = $request->max_quota;
-        $database->save();
-
-        return response()->json(['message' => 'Database quota updated successfully!', 'data' => $database]);
     }
 
     // Function to block or unblock the client
@@ -65,5 +54,5 @@ class ClientController extends Controller
             'status' => $user->is_active
         ]);
     }
-    
+
 }

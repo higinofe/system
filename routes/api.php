@@ -1,12 +1,14 @@
 <?php
 
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\ClientController;
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\SSLController;
-use App\Http\Controllers\Auth\ResetPasswordController;
-use App\Http\Controllers\DatabaseController;
+
+use App\Http\Controllers\Client\ClientController;
+use App\Http\Controllers\Admin\DatabaseController;
+use App\Http\Controllers\Admin\DomainController;
+use App\Http\Controllers\Client\ProfileController;
+use App\Http\Controllers\Admin\SSLController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,31 +21,27 @@ use App\Http\Controllers\DatabaseController;
 |
 */
 
-//autentication PassPort
+Route::middleware('auth:api')->group(function () {
+    // Client
+    Route::get('/client/create', [ClientController::class, 'createClient']);
+    Route::get('/client/toggleClientStatus', [ClientController::class, 'toggleClientStatus']);
 
+    //Manage DB
+    Route::get('/database/{database}/check-usage', [DatabaseController::class, 'checkUsage']);
+    Route::get('/database/{database}/create', [DatabaseController::class, 'create']);
 
-//administer DB
-Route::put('/admin/database/{database}/quota', [AdminController::class, 'setDatabaseQuota']);
-Route::post('/database/{database}/provision-ssl', [SSLController::class, 'provisionSSL']);
-Route::get('/database/{database}/check-usage', [DatabaseController::class, 'checkUsage']);
+    //SSL
+    Route::post('/database/{database}/provision-ssl', [SSLController::class, 'provisionSSL']);
 
-//Send e-mail
-Route::post('/password/email', [ResetPasswordController::class, 'sendResetLinkEmail']);
-Route::post('/password/reset', [ResetPasswordController::class, 'reset']);
+    //Domain
+    Route::get('/domain/create', [DomainController::class, 'create']);
+    Route::post('/domain/{database}/createDatabase', [DomainController::class, 'createDatabase']);
+    Route::post('/domain/{database}/ChackUsedDatabase', [DomainController::class, 'ChackUsedDatabase']);
 
-//to create Client
-Route::post('/admin/client', [ClientController::class, 'store']);
-
-// Routes authenticator passport
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+    //Send e-mail
+    Route::post('/password/email', [ResetPasswordController::class, 'sendResetLinkEmail']);
+    Route::post('/password/reset', [ResetPasswordController::class, 'reset']);
+    
 });
-
-
-
-
-
-
-;
 
 
