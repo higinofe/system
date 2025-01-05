@@ -23,6 +23,12 @@ class UsageAlert extends Mailable
     public function build()
     {
         return $this->subject('Database Usage Alert')
-                    ->view('emails.usage_alert');
+                    ->view('emails.usage_alert') 
+                    ->with([
+                        'user' => $this->database->user,
+                        'database' => $this->database,
+                        'message' => $this->message,
+                    ])
+                    ->subject('Alerta de Excesso de Uso de Banco de Dados');
     }
 }

@@ -2,15 +2,15 @@
 
 namespace App\Jobs;
 
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Mail;
 
 use App\Mail\ClientCredentialsMail;
 use App\Models\User;
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
+
 
 class SendClientCredentialsEmail implements ShouldQueue
 {
@@ -32,8 +32,9 @@ class SendClientCredentialsEmail implements ShouldQueue
 
     public function handle(Mailer $mailer)
     {
+        
         // send Email server
-        $mailer->to($this->user->email)
-               ->send(new ClientCredentialsMail($this->user, $this->password));
+        Mail::to($this->email)->send(new ClientCredentialsMail($this->email, $this->password));
+
     }
 }

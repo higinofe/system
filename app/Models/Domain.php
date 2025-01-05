@@ -5,17 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Database extends Model
+class Domain extends Model
 {
     use HasFactory;
 
-    protected $table = 'databases'; 
+    protected $table = 'domain'; 
 
     protected $fillable = [
-        'name', 
-        'domain_id', 
-        'user_id',
-        'usage',
+        'name'
     ];
-    
+
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+    ];
+
+
 }

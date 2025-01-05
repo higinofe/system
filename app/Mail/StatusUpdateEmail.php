@@ -22,11 +22,11 @@ class StatusUpdateEmail extends Mailable
 
     public function build()
     {
-        return $this->subject('Account Status Update')
-                    ->view('emails.status_update')
+        return $this->view('emails.cliente_update')
                     ->with([
                         'user' => $this->user,
-                        'message' => $this->message,
-                    ]);
+                        'statusMessage' => $this->message,
+                    ])
+                    ->subject('Atualização de Status');
     }
 }

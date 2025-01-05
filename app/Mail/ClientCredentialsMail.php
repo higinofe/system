@@ -2,24 +2,30 @@
 
 namespace App\Mail;
 
-use App\Models\User;
+use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
+use Illuminate\Queue\SerializesModels;
 
 class ClientCredentialsMail extends Mailable
 {
-    public $user;
+    use Queueable, SerializesModels;
+
+    public $username;
     public $password;
 
-    public function __construct(User $user, $password)
+    public function __construct($username, $password)
     {
-        $this->user = $user;
+        $this->username = $username;
         $this->password = $password;
     }
 
     public function build()
     {
-        return $this->subject('Credenciais de Acesso')
-                    ->view('emails.client_credentials');
+        return $this->subject('Your Account Credentials')
+                    ->view('emails.client_credentials')
+                    ->with([
+                        'username' => $this->username,
+                        'password' => $this->password,
+                    ]);
     }
-    
 }

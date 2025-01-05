@@ -1,0 +1,24 @@
+<!-- resources/views/emails/welcome.blade.php -->
+
+@extends('layouts.email') <!-- Estende o layout de e-mail -->
+
+@section('subject', 'Bem-vindo ao Nosso Sistema!') <!-- Defina o assunto -->
+
+@section('content') <!-- Conteúdo do e-mail -->
+    <h1>Olá {{ $user->name }},</h1>
+    <p>
+        Seja bem-vindo ao nosso sistema! Estamos muito felizes por você ter se juntado a nós.
+    </p>
+    <p>
+        Aproveite ao máximo nossos recursos e, se precisar de alguma ajuda, nossa equipe de suporte estará sempre disponível para assisti-lo.
+    </p>
+    <p>
+        Atenciosamente,<br>
+        A Equipe do Sistema
+    </p>
+
+    <div class="footer">
+        <p>Este é um e-mail automático. Por favor, não responda a este e-mail.</p>
+    </div>
+    
+@endsection

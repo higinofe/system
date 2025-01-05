@@ -29,7 +29,27 @@ return [
     */
 
     'connections' => [
-
+        'rabbitmq' => [
+            'driver' => 'rabbitmq',
+            'host' => env('RABBITMQ_HOST', 'localhost'),
+            'port' => env('RABBITMQ_PORT', 5672),
+            'user' => env('RABBITMQ_USER', 'guest'),
+            'password' => env('RABBITMQ_PASSWORD', 'guest'),
+            'vhost' => env('RABBITMQ_VHOST', '/'),
+            'queue' => env('RABBITMQ_QUEUE', 'emails_queue'),
+            'exchange' => env('RABBITMQ_EXCHANGE', 'emails_exchange'),
+            'exchange_type' => env('RABBITMQ_EXCHANGE_TYPE', 'direct'),
+            'options' => [
+                'ssl_options' => [
+                    'cafile' => env('RABBITMQ_CAFILE', null),
+                    'local_cert' => env('RABBITMQ_LOCALCERT', null),
+                    'local_key' => env('RABBITMQ_LOCALKEY', null),
+                    'passphrase' => env('RABBITMQ_PASSPHRASE', null),
+                    'verify_peer' => env('RABBITMQ_VERIFY_PEER', false),
+                ],
+            ],
+        ],
+        
         'sync' => [
             'driver' => 'sync',
         ],

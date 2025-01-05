@@ -5,11 +5,11 @@ namespace App\Http\Controllers\Client;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
 
+use App\Jobs\SendWelcomeEmailJob;
+use App\Jobs\SendClientCredentialsEmail;
+use App\Jobs\SendStatusUpdateEmailJob;
 use App\Models\User;
-use App\Mail\SendClientCredentialsMail;
-use App\Models\Database;
 
 class ClientController extends Controller
 {
@@ -33,11 +33,34 @@ class ClientController extends Controller
             'password' => Hash::make($password),
         ]);
 
-        // Send Email to the Client
-        Mail::to($user->email)->send(new SendClientCredentialsMail($user->email, $password));
+        // Send email to asynchronous queue
+        dispatch(new SendWelcomeEmailJob($user->email));
+        dispatch(new SendClientCredentialsEmail($user->email, $password));
 
         return response()->json(['message' => 'Client created and email sent successfully!']);
 
+    }
+
+    //Update Client
+    public function updateClient(Request $request, $id)
+    {
+        $request->validate([
+            'name' => 'sometimes|required|max:255',
+            'email' => 'sometimes|required|email|unique:users,email,' . $id,
+        ]);
+
+        $user = User::findOrFail($id);
+
+        $user->update($request->only(['name', 'email']));
+
+        $statusMessage = "Your profile has been updated successfully!";
+
+        dispatch(new SendStatusUpdateEmailJob($user, $statusMessage));
+
+        return response()->json([
+            'message' => 'Client updated successfully and email sent!',
+            'user' => $user,
+        ]);
     }
 
     // Function to block or unblock the client
@@ -54,5 +77,4 @@ class ClientController extends Controller
             'status' => $user->is_active
         ]);
     }
-
 }
