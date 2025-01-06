@@ -28,10 +28,11 @@ Envio Assíncrono de E-mails: O sistema envia e-mails de forma assíncrona para 
     sudo dos2unix setup.sh
 
 5. Alterar arquivo de setup:
+    nano setup.sh
     Alterar DB_USER e DB_PASS do arquivo setup, configuracao referente ao banco de dados local.
 
-6. Converta o arquivo setup.sh para o formato Unix:
+7. Converta o arquivo setup.sh para o formato Unix:
     chmod +x setup.sh
 
-7. Execute o script para finalizar a instalação e configuração:
+8. Execute o script para finalizar a instalação e configuração:
     ./setup.sh
