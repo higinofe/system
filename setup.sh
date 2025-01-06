@@ -3,8 +3,8 @@
 # Variáveis
 APP_DIR=$(pwd)
 DB_NAME="system"
-DB_USER="developers"
-DB_PASS="Developers@1"
+DB_USER="YOU-USER-DB"
+DB_PASS="YOU-PASS-DB"
 
 # Verificar permissões
 if [ "$EUID" -ne 0 ]; then
